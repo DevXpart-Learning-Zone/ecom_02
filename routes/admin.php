@@ -1,15 +1,7 @@
 <?php
 
-Route::get('/home', function () {
-    $users[] = Auth::user();
-    $users[] = Auth::guard()->user();
-    $users[] = Auth::guard('admin')->user();
-
-    //dd($users);
-
-    return view('admin.home');
-})->name('home');
-
-Route::get('/contact', function () {
-    return view('welcome');
+Route::namespace('Admin')->group(function () {
+    Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
+    Route::resource('category', 'CategoryController')->except(['show']);
+    Route::resource('product', 'ProductController');
 });
