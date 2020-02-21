@@ -17,6 +17,5 @@ $factory->define(Product::class, function (Faker $faker) {
         'description' => $faker->text(100),
         'thumb' => $faker->text('15') . $faker->randomElement(['.jpg', '.png', '.jpeg']),
         'image' => $faker->text('15') . $faker->randomElement(['.jpg', '.png', '.jpeg']),
-
     ];
 });

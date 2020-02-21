@@ -12,7 +12,7 @@
     <!-- app favicon -->
     <link rel="shortcut icon" href="{{ asset('asset/back/img/favicon.icocss')}}">
     <!-- google fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+{{--    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">--}}
     <!-- plugin stylesheets -->
     <link rel="stylesheet" type="text/css" href="{{ asset('asset/back/css/vendors.css')}}" />
     <!-- app style -->
@@ -63,6 +63,12 @@
 
     <!-- custom app -->
     <script src="{{ asset('asset/back/js/app.js')}}"></script>
+    <script src="{{ asset('asset/back/js/jquery-3.3.1.min.js')}}"></script>
+    <script>
+        setTimeout(function(){
+            $('.message').slideUp(500);
+        },3000);
+    </script>
 </body>
 
 

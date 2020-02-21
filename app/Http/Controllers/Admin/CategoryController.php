@@ -3,83 +3,74 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+// wifi@2019
+use Session;
+
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+       $data = [
+            'categories' => Category::orderBy('name')->get()
+       ];
+       return view('admin.category.index')->with($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $data['name'] = $request->name;
+        if(Category::create($data))
+        {
+            Session::flash('success','Data inserted successfully');
+            return redirect()->route('admin.category.index');
+        }else{
+            Session::flash('success','Data insert failed');
+            return redirect()->route('admin.category.create');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Category $category)
     {
-        //
+        $data = [
+            'category' =>  $category
+       ];
+        return view('admin.category.edit')->with($data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $category->name = $request->name;
+        if($category->update())
+        {
+            Session::flash('success','Data updated successfully');
+            return redirect()->route('admin.category.index');
+        }else{
+            Session::flash('success','Data updated failed');
+            return redirect()->route('admin.category.index');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function delete($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $category = Category::find($id);
+        if($category->delete())
+        {
+            Session::flash('success','Data deleted successfully');
+            return redirect()->route('admin.category.index');
+        }else{
+            Session::flash('success','Data delete failed');
+            return redirect()->route('admin.category.index');
+        }
     }
 }

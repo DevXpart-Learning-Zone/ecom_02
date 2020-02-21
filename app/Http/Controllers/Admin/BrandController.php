@@ -4,82 +4,70 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Brand;
+use Session;
 
 class BrandController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+       $data = [
+            'brands' => Brand::orderBy('name')->get()
+       ];
+       return view('admin.brand.index')->with($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('admin.brand.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $data['name'] = $request->name;
+        if(Brand::create($data))
+        {
+            Session::flash('success','Data inserted successfully');
+            return redirect()->route('admin.brand.index');
+        }else{
+            Session::flash('success','Data insert failed');
+            return redirect()->route('admin.brand.create');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Brand $brand)
     {
-        //
+        $data = [
+            'brand' =>  $brand
+       ];
+        return view('admin.brand.edit')->with($data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, Brand $brand)
     {
-        //
+        $brand->name = $request->name;
+        if($brand->update())
+        {
+            Session::flash('success','Data updated successfully');
+            return redirect()->route('admin.brand.index');
+        }else{
+            Session::flash('success','Data updated failed');
+            return redirect()->route('admin.brand.index');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function delete($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $brand = Brand::find($id);
+        if($brand->delete())
+        {
+            Session::flash('success','Data deleted successfully');
+            return redirect()->route('admin.brand.index');
+        }else{
+            Session::flash('success','Data delete failed');
+            return redirect()->route('admin.brand.index');
+        }
     }
 }
