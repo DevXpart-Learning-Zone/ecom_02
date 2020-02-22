@@ -18,6 +18,8 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->string('thumb');
             $table->string('image');
+            $table->tinyinteger('featured')->default(0);
+            $table->tinyinteger('on_sale')->default(0);
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade')->onUpdate('cascade');

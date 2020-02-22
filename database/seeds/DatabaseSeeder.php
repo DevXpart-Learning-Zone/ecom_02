@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
         factory(Admin::class, 1)->create();
         factory(Brand::class, 5)->create();
         factory(Category::class, 5)->create();
-        factory(Product::class, 20)->create();
+        factory(Product::class, 5)->create();
     }
 }

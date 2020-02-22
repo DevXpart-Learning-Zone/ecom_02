@@ -1,6 +1,10 @@
 <?php
 Route::namespace('Web')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/contact', 'HomeController@contact')->name('contact');
+    Route::get('/about-us', 'HomeController@about_us')->name('about_us');
+    Route::get('/faq', 'HomeController@faq')->name('faq');
+    Route::get('/privacy_policy', 'HomeController@privacy_policy')->name('privacy_policy');
 });
 
 Route::get('/admin', function () {
